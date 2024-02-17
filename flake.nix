@@ -21,6 +21,7 @@
             pkgs.python3Packages.flask
             pkgs.nodePackages.typescript-language-server
             pkgs.nodejs_20
+            pkgs.nodePackages.pyright
             pkgs.nodePackages.npm
             # pkgs.nodePackages.vscode-html-languageserver
           ];

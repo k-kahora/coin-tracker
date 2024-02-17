@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify, request
 import requests
+import functools
 
 app = Flask(__name__)
 
@@ -18,6 +19,20 @@ def fetch_coins():
     else:
         return jsonify({"error": "Failed to fetch data from CoinGecko"}), response.status_code
 
+@app.route('/clean-data')
+def clean():
+    url = 'https://api.coingecko.com/api/v3/coins/list?include_platform=true'
+    headers = {'accept': 'application/json'}
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        data = response.json()[300:310] # NOTE only getting 10 data items at the moment
+    else:
+        return jsonify({"error": "Failed to fetch data from CoinGecko"}), response.status_code
+    data = functools.reduce(lambda acc , nxt: acc + [nxt["id"]] , data, [] )
+    print(data)
+    return jsonify(data)
+
+    
 
 @app.route('/dimensions', methods=['GET'])
 def dimension():
