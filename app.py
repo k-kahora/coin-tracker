@@ -62,6 +62,12 @@ def clean():
 
         attribute_paths = [
             ("item.name","name"),
+            ("item.market_cap_rank","market_cap_rank"),
+            ("item.data.price","price"),
+            ("item.data.total_volume","total_volume"),
+            ("item.data.total_volume_btc","total_volume_btc"),
+            ("item.data.price_change_percentage_24h.usd","price_change_percetage"),
+            # ("item.large", "logo") cool to use the logo to prsent these
         ]
         extracted_data = extract_nested_attributes(coin, attribute_paths)
         print(extracted_data)
