@@ -14,9 +14,17 @@ var svg = d3.select("#my_dataviz")
         "translate(" + margin.left + "," + margin.top + ")");
 
 
-d3.json('/fetch-coins').then(function(data) {
+d3.json('/clean-data').then(function(data) {
     // Use D3 to visualize the data
     console.log(data); // For debugging purposes
     // Example: Create a simple visualization based on the data
     // This is where you'd use D3.js methods to bind data to DOM elements, create SVGs, etc.
+    dimensions = d3.keys(data[0]).filter(function(d) { return d != "name" })
+// var y = {}
+//   for (i in dimensions) {
+//     name = dimensions[i]
+//     y[name] = d3.scaleLinear()
+//       .domain( d3.extent(data, function(d) { return +d[name]; }) )
+//       .range([height, 0])
+//   }
 });
