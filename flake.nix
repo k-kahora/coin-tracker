@@ -19,6 +19,10 @@
             pkgs.python3
             pkgs.python3Packages.requests
             pkgs.python3Packages.flask
+            pkgs.nodePackages.typescript-language-server
+            pkgs.nodejs_20
+            pkgs.nodePackages.npm
+            # pkgs.nodePackages.vscode-html-languageserver
           ];
           shellHook = ''
             export PYTHONSTARTUP=.homework1/startup.py

@@ -1,3 +1,4 @@
+from flask import Flask, render_template
 from flask import Flask, jsonify
 import requests
 
@@ -17,6 +18,11 @@ def fetch_coins():
         return jsonify(data)
     else:
         return jsonify({"error": "Failed to fetch data from CoinGecko"}), response.status_code
+    
+@app.route('/main-page')
+def main_site():
+    return render_template('graph.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
+
