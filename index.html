@@ -19,7 +19,7 @@
         <div class="nav-contents">
             <a href="#">Home</a>
             <a href="#">About</a>
-            <a href="#">Contact</a>
+            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Contact</a>
         </div>
     </nav>
 
@@ -64,6 +64,17 @@
             document.querySelectorAll('.image-container').forEach(container => {
                 container.style.transform = `rotate(${rotationAngle}deg)`;
             });
+        });
+    </script>
+
+    <script>
+        const logo = document.querySelector('.logo');
+
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth - 0.5;
+            const mouseY = e.clientY / window.innerHeight - 0.5;
+
+            logo.style.transform = `translate(-50%, -50%) perspective(1000px) rotateX(${mouseY * 30}deg) rotateY(${mouseX * 30}deg)`;
         });
     </script>
 
