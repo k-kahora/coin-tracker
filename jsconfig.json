@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "*": ["node_modules/*", "static/**/*"]
+    }
+  },
+  "include": [
+    "static/**/*"
+  ]
+}
