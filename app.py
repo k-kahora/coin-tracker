@@ -14,11 +14,12 @@ def fetch_coins():
     headers = {'accept': 'application/json'}
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
-        data = response.json()
+        data = response.json()[:10] # NOTE only getting 10 data items at the moment
         return jsonify(data)
     else:
         return jsonify({"error": "Failed to fetch data from CoinGecko"}), response.status_code
-    
+
+@app.route('/dimensions')
 @app.route('/main-page')
 def main_site():
     return render_template('graph.html')
