@@ -1,4 +1,5 @@
 from flask import Flask, render_template, jsonify, request
+from decimal import Decimal
 import requests
 import functools
 
@@ -44,7 +45,7 @@ def clean():
     # function to extrac the dimensions from the json api call return a list with one element which is the data 
     def extract_coin(coin):
         def extract_nested_attributes(json_data, attribute_paths):
-            def get_from_path(data, path):
+            def get_from_path(data, path, f):
                 """Helper function to navigate through the nested dictionary."""
                 keys = path.split('.')
                 for key in keys:
@@ -52,21 +53,22 @@ def clean():
                         data = data[key]
                     else:
                         return None  # or a default value
-                return data
+                return f(data)
     
             extracted_data = {}
             for path in attribute_paths:
                 key = path[1]  # Extract the last key as the attribute name
-                extracted_data[key] = get_from_path(json_data, path[0])
+                extracted_data[key] = get_from_path(json_data, path[0], path[2])
             return extracted_data
 
+        # all data must be sent as a string that represents a decimal/int with no special chars besides a '.' but 
         attribute_paths = [
-            ("item.name","name"),
-            ("item.market_cap_rank","market_cap_rank"),
-            ("item.data.price","price"),
-            ("item.data.total_volume","total_volume"),
-            ("item.data.total_volume_btc","total_volume_btc"),
-            ("item.data.price_change_percentage_24h.usd","price_change_percetage"),
+            ("item.name","name", lambda a : a),
+            ("item.market_cap_rank","market_cap_rank", lambda a : str(a)),
+            ("item.data.price","price", lambda a : a.replace("$","")),
+            ("item.data.total_volume","total_volume", lambda a : a.replace("$", "").replace(",", "")),
+            ("item.data.total_volume_btc","total_volume_btc", lambda a : a),
+            ("item.data.price_change_percentage_24h.usd","price_change_percetage", lambda a : str(a))
             # ("item.large", "logo") cool to use the logo to prsent these
         ]
         extracted_data = extract_nested_attributes(coin, attribute_paths)
