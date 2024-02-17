@@ -8,6 +8,17 @@ app = Flask(__name__)
 def home():
     return 'Welcome to the CoinGecko Data Fetcher!'
 
+@app.route('/trending')
+def trending():
+    url = 'https://api.coingecko.com/api/v3/search/trending'
+    headers = {'accept': 'application/json'}
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        data = response.json() # NOTE only getting 10 data items at the moment
+        return jsonify(data)
+    else:
+        return jsonify({"error": "Failed to fetch data from CoinGecko"}), response.status_code
+
 @app.route('/fetch-coins')
 def fetch_coins():
     url = 'https://api.coingecko.com/api/v3/coins/list?include_platform=true'
@@ -21,16 +32,46 @@ def fetch_coins():
 
 @app.route('/clean-data')
 def clean():
-    url = 'https://api.coingecko.com/api/v3/coins/list?include_platform=true'
+    url = 'https://api.coingecko.com/api/v3/search/trending'
     headers = {'accept': 'application/json'}
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
-        data = response.json()[300:310] # NOTE only getting 10 data items at the moment
+        data = response.json() # NOTE only getting 10 data items at the moment
     else:
         return jsonify({"error": "Failed to fetch data from CoinGecko"}), response.status_code
-    data = functools.reduce(lambda acc , nxt: acc + [nxt["id"]] , data, [] )
-    print(data)
-    return jsonify(data)
+    list_of_coins = data["coins"]
+    
+    # function to extrac the dimensions from the json api call return a list with one element which is the data 
+    def extract_coin(coin):
+        def extract_nested_attributes(json_data, attribute_paths):
+            def get_from_path(data, path):
+                """Helper function to navigate through the nested dictionary."""
+                keys = path.split('.')
+                for key in keys:
+                    if data is not None and key in data:
+                        data = data[key]
+                    else:
+                        return None  # or a default value
+                return data
+    
+            extracted_data = {}
+            for path in attribute_paths:
+                key = path[1]  # Extract the last key as the attribute name
+                extracted_data[key] = get_from_path(json_data, path[0])
+            return extracted_data
+
+        attribute_paths = [
+            ("item.name","name"),
+        ]
+        extracted_data = extract_nested_attributes(coin, attribute_paths)
+        print(extracted_data)
+        return extracted_data
+    final = []
+    for coin in list_of_coins:
+        final += [extract_coin(coin)]
+
+
+    return jsonify(final)
 
     
 
