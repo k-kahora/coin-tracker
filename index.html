@@ -5,69 +5,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TokenTrend</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
-
-        nav {
-            background-color: #555;
-            padding: 10px;
-            text-align: center;
-        }
-
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            padding: 10px;
-            margin: 0 10px;
-        }
-
-        nav a:hover {
-            background-color: #777;
-        }
-
-        section {
-            padding: 20px;
-        }
-
-        footer {
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-    <header>
-        <h1>TokenTrend</h1>
-    </header>
+
 
     <nav>
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
+        <a href="#"> <!-- Add style to push this link to the left -->
+            <img src="Images/logo.png" alt="Logo" style="height: 30px; width: 30px;">
+        </a>
+        <div class="nav-contents">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </div>
     </nav>
 
-    <section>
-        <h2>Main Content Goes Here</h2>
-        <p>This is the main content of your webpage.</p>
+    <section class="hero-section" style="background-color:rgb(21, 27, 18)">
+        <div class="coins-container">
+            <div class="image-container binance">
+                <img src="Images/binance-logo.svg" alt="Image 1">
+            </div>
+            <div class="image-container bitpanda">
+                <img src="Images/bitpanda-logo.svg" alt="Image 2">
+            </div>
+            <div class="image-container coinbase">
+                <img src="Images/coinbase-logo.svg" alt="Image 1">
+            </div>
+            <div class="image-container gemeni">
+                <img src="Images/gemini-logo.svg" alt="Image 2">
+            </div>
+            <div class="image-container kucoin">
+                <img src="Images/kucoin-logo.svg" alt="Image 1">
+            </div>
+            <div class="image-container kraken">
+                <img src="Images/kraken-logo.svg" alt="Image 1">
+            </div>
+            <div class="image-container compound">
+                <img src="Images/compound-logo.svg" alt="Image 1">
+            </div>
+        </div>
+        <div class="title">
+            <h1>Welcome to TokenTrend</h1>
+            <p class="subtitle">The one-stop-shop for all your cryptocurrency tracking needs.</p>
+            <a href="#" class="get-started-btn">Get Started</a>
+        </div>
+        <div class="logo">
+            <img src="images/logo.png" alt="Logo">
+        </div>
+    </section>
+    <script>
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY;
+            const rotationAngle = scrollPosition / 5; // You can adjust the rotation speed here
+
+            document.querySelectorAll('.image-container').forEach(container => {
+                container.style.transform = `rotate(${rotationAngle}deg)`;
+            });
+        });
+    </script>
+
+    <section class="graph">
+
     </section>
 
+
+
     <footer>
-        <p>&copy; 2024 Your Website. All rights reserved.</p>
+        <p>&copy; 2024 TokenTrend. All rights reserved.</p>
     </footer>
 
 </body>
