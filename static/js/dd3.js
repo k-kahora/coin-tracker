@@ -18,6 +18,8 @@ d3.json('/clean-data').then(function(data) {
     // Use D3 to visualize the data
     // Example: Create a simple visualization based on the data
     // This is where you'd use D3.js methods to bind data to DOM elements, create SVGs, etc.
+
+    var columns_col = ["name", "logo"].concat(d3.keys(data[0]).filter(key => !["name", "logo"].includes(key)));
     dimensions = d3.keys(data[0]).filter(function(d) { return d != "name" && d != "logo" })
     var y = {}
     for (i in dimensions) {
@@ -93,7 +95,7 @@ svg.selectAll("path")
         })
         .style("opacity", 1); // Highlight selected paths
 
-		updateTable(filteredData)
+		updateTableBody(filteredData, columns_col)
             // Implement logic to handle the brush selection for 'dimension'
             // This might involve filtering the dataset based on the selection and updating the visualization
         }
@@ -106,51 +108,55 @@ svg.selectAll("path")
         }
 
 })
-    
-function createTable(data) {
+function createTableHeader(columns) {
 var table = d3.select("#data-table").selectAll("table").data([null]);
     table = table.enter().append("table").merge(table);
 
     // Create the table header
     var thead = table.selectAll("thead").data([null]);
     thead = thead.enter().append("thead").merge(thead);
+    
+    // get the order right
+    var columns = ["name", "logo"].concat(d3.keys(data[0]).filter(key => !["name", "logo"].includes(key)));
 
-    var headers = thead.selectAll("th").data(d3.keys(data[0]));
+    var headers = thead.selectAll("th").data(columns);
     headers.enter().append("th").merge(headers).text(d => d);
     headers.exit().remove();
-
-    // Create rows for each object in the data
-    // var rows = table.selectAll("tbody tr").data(data);
-    // rows = rows.enter().append("tr").merge(rows);
-
-    // // Create cells for each row
-    // var cells = rows.selectAll("td").data(function(row) {
-    //     return d3.keys(row).map(function(column) {
-    //         return { value: row[column] };
-    //     });
-    // });
-
-    // cells.enter().append("td").merge(cells).text(d => d.value);
-    // cells.exit().remove();
-
-    // Remove any excess rows
-    // rows.exit().remove();
 }
-    createTable(data)
+    createTableHeader(data)
+function updateTableBody(data, columns) {
+    var table = d3.select("#data-table").select("table");
+    if (table.empty()) return; // Ensure the table exists
 
-function updateTable(selectedData) {
-  if (selectedData == null) {
-      return
+    var tbody = table.selectAll("tbody").data([null]);
+    tbody = tbody.enter().append("tbody").merge(tbody);
 
+    var rows = tbody.selectAll("tr").data(data);
+    var rowsEnter = rows.enter().append("tr");
+    rows.exit().remove();
+    rows = rowsEnter.merge(rows);
+
+    var cells = rows.selectAll("td").data(function(row) {
+        return columns.map(column => ({ key: column, value: row[column] }));
+    });
+
+    cells.enter().append("td").merge(cells)
+        .each(function(d) {
+            var cell = d3.select(this);
+            cell.selectAll("*").remove(); // Clear existing content
+            if (d.key === "logo" && d.value) {
+                cell.append("img")
+                    .attr("src", d.value)
+                    .attr("height", "50px")
+                    .attr("width", "50px");
+            } else {
+                cell.text(d.value);
+            }
+        });
+
+    cells.exit().remove();
 }
-    console.log(selectedData)
-    var table = d3.select("#data-table")
-    var para = table.selectAll("p").data(selectedData)
-    para.enter().append("p").text(function(d) { return d["name"]; })
-    para.exit().remove()
 
-
-}
 
 
 });

@@ -63,9 +63,9 @@ def clean():
 
         # all data must be sent as a string that represents a decimal/int with no special chars besides a '.' but 
         attribute_paths = [
+            ("item.data.price","price", lambda a : a.replace("$","")),
             ("item.name","name", lambda a : a),
             ("item.market_cap_rank","market_cap_rank", lambda a : str(a)),
-            ("item.data.price","price", lambda a : a.replace("$","")),
             ("item.data.total_volume","total_volume", lambda a : a.replace("$", "").replace(",", "")),
             ("item.data.total_volume_btc","total_volume_btc", lambda a : a),
             ("item.data.price_change_percentage_24h.usd","price_change_percetage", lambda a : str(a)),
