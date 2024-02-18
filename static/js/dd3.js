@@ -156,6 +156,19 @@ function updateTableBody(data, columns) {
 
     cells.exit().remove();
 }
+d3.select('#search-button').on('click', function() {
+  var searchString = d3.select('#search-input').property('value');
+  console.log(searchString);
+
+  // Use the Fetch API with D3.js v5+
+  d3.json("http://127.0.0.1:5000/dimensions?query=" + encodeURIComponent(searchString))
+    .then(function(d) {
+      console.log(d);
+    })
+    .catch(function(error) {
+      console.error("Error fetching the data: ", error);
+    });
+});
 
 
 

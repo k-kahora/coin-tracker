@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template, jsonify, request
 from decimal import Decimal
 import requests
@@ -67,12 +68,11 @@ def clean():
             ("item.name","name", lambda a : a),
             ("item.market_cap_rank","market_cap_rank", lambda a : str(a)),
             ("item.data.total_volume","total_volume", lambda a : a.replace("$", "").replace(",", "")),
-            ("item.data.total_volume_btc","total_volume_btc", lambda a : a),
+            ("item.score","score", lambda a : str(a)),
             ("item.data.price_change_percentage_24h.usd","price_change_percetage", lambda a : str(a)),
             ("item.large", "logo", lambda a : a) # cool to use the logo to prsent these
         ]
         extracted_data = extract_nested_attributes(coin, attribute_paths)
-        print(extracted_data)
         return extracted_data
     final = []
     for coin in list_of_coins:
@@ -90,20 +90,83 @@ def dimension():
     # Check if the query parameter is provided
     if not query_param:
         return jsonify({"error": "Missing query parameter"}), 400
-    url = f"https://api.coingecko.com/api/v3/coins/{query_param}?tickers=false&market_data=true&community_data=true&developer_data=false&sparkline=false"
+    url = f"https://api.coingecko.com/api/v3/search?query={query_param}"
     headers = {'accept': 'application/json'}
     
     # Make the API call
+    data = {}
     try:
         response = requests.get(url, headers=headers)
         # Assuming the API returns JSON
         data = response.json()
         
         # Return the data from the API call
-        return jsonify(data)
     except requests.RequestException as e:
         # Handle connection errors
         return jsonify({"error": "Failed to make API call", "details": str(e)}), 500
+    def extract_coin(coin):
+        def extract_nested_attributes(json_data, attribute_paths):
+            def get_from_path(data, path, f):
+                """Helper function to navigate through the nested dictionary."""
+                keys = path.split('.')
+                for key in keys:
+                    if data is not None: 
+                        data = data[key]
+                    else:
+                        return None  # or a default value
+                return f(data)
+    
+            extracted_data = {}
+            for path in attribute_paths:
+                key = path[1]  # Extract the last key as the attribute name
+                extracted_data[key] = get_from_path(json_data, path[0], path[2])
+            return extracted_data
+
+        # all data must be sent as a string that represents a decimal/int with no special chars besides a '.' but 
+        attribute_paths= [
+            ("market_data.current_price.usd","price", lambda a : a),
+            ("name","name", lambda a : a),
+            ("market_cap_rank","market_cap_rank", lambda a : a),
+            ("market_data.total_volume.usd","total_volume", lambda a : a),
+            ("market_data.price_change_24h","market_cap_price", lambda a : a),
+            ("market_data.price_change_percentage_24h","price_change_percentage", lambda a : a),
+            ("image.large", "logo", lambda a : a) # cool to use the logo to prsent these
+        ]
+
+        extracted_data = extract_nested_attributes(coin, attribute_paths)
+        return extracted_data
+    final = []
+
+    data = [{"id": obj["id"]} for obj in data["coins"]][:1]
+    
+    def get_precise_data(coin):
+
+        url = f"https://api.coingecko.com/api/v3/coins/{coin}?market_data=true"
+        headers = {'accept': 'application/json'}
+    
+        # Make the API call
+        data = {}
+        try:
+            response = requests.get(url, headers=headers)
+            # Assuming the API returns JSON
+            data = response.json()
+        
+            # Return the data from the API call
+        except requests.RequestException as e:
+        # Handle connection errors
+            return jsonify({"error": "Failed to make API call", "details": str(e)}), 500
+        print(data)
+        return data
+
+    for item in data:
+        final += [extract_coin(get_precise_data(item["id"]))]
+    
+    
+
+    return final
+
+    
+
 
 @app.route('/graph')
 def graph_runner():
@@ -115,4 +178,3 @@ def main_site():
 
 if __name__ == '__main__':
     app.run(debug=True)
-

@@ -263,45 +263,42 @@ table {
 #spacer {
     background-color: rgb(128, 128, 128);
 }
-
-.bitcoin {
-    position: absolute;
+.search {
+    height: 50px;
+    background-color: rgb(128, 128, 128);
 }
 
-.cardano {
-    position: absolute;
-    right: 2%;
-    top: 105%;
+#search-container {
+  display: flex;
+  justify-content: flex-start; /* Aligns items to the start of the container */
+  align-items: center;
+  margin-top: 20px;
 }
 
-.dogecoin {
-    position: absolute;
-    top: 190%;
+#search-input {
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ddd;
+  border-radius: 4px 0 0 4px; /* Rounded left corners */
+  outline: none; /* Removes the default focus highlight */
+  width: 240px; /* Adjust width as needed */
 }
 
-.ethereum {
-    position: absolute;
-    right: 5%;
-    top: 105%;
+#search-input:focus {
+  border-color: #007bff; /* Highlight color when focused */
 }
 
-.tron {
-    position: absolute;
-    top: 145%;
-    right: 5%;
+#search-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0; /* Rounded right corners */
+  cursor: pointer; /* Changes cursor to pointer on hover */
+  outline: none; /* Removes the default focus highlight */
 }
 
-.usd-coin {
-    position: absolute;
-    top: 190%;
-    right: 2%;
-}
-
-.coins-container2 {
-    overflow: hidden;
-}
-
-
-.move-center {
-    transform: translateY(-100vh);
+#search-button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
 }
