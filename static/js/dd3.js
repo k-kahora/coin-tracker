@@ -16,15 +16,12 @@ var svg = d3.select("#my_dataviz")
 
 d3.json('/clean-data').then(function(data) {
     // Use D3 to visualize the data
-    console.log(data); // For debugging purposes
     // Example: Create a simple visualization based on the data
     // This is where you'd use D3.js methods to bind data to DOM elements, create SVGs, etc.
-    dimensions = d3.keys(data[0]).filter(function(d) { return d != "name" })
-    console.log(dimensions)
+    dimensions = d3.keys(data[0]).filter(function(d) { return d != "name" && d != "logo" })
     var y = {}
     for (i in dimensions) {
 	name = dimensions[i]
-	console.log(name)
 	y[name] = d3.scaleLinear()
 	    .domain( d3.extent(data, function(d) { return parseFloat(d[name]); }) ) // TODO make sure the numbers are returend in the valide format
 	    .range([height, 0])
@@ -43,7 +40,7 @@ d3.json('/clean-data').then(function(data) {
     .attr("d",  path)
     .style("fill", "none")
     .style("stroke", "#69b3a2")
-    .style("opacity", 0.5)
+    .style("opacity", 1)
 var axis = svg.selectAll("myAxis")
     // For each dimension of the dataset I add a 'g' element:
     .data(dimensions).enter()
@@ -84,20 +81,19 @@ dimensions.forEach(function(dimension) {
             var selection = event.selection;
 	    if (selection == null) return;
 	    var [y0, y1] = selection.map(y[dimension].invert, y[dimension]);
-	    // console.log(y0)
-	    // console.log(y1)
 	    var filteredData = data.filter(function(d) {
-		// console.log(parseFloat(d[dimension]))
-		// console.log("y0")
-		// console.log(y0)
-		// console.log("y1")
-		// console.log(y1)
-		if (parseFloat(d[dimension]) >= y1 && parseFloat(d[dimension]) <= y0) {
-		    console.log(d)
-}
+
 		return parseFloat(d[dimension]) >= y1 && parseFloat(d[dimension]) <= y0;
 	    });
-	    console.log(filteredData)
+svg.selectAll("path")
+        .style("opacity", 0.1); // Dim all paths
+    svg.selectAll("path")
+        .filter(function(d) {
+            return filteredData.includes(d);
+        })
+        .style("opacity", 1); // Highlight selected paths
+
+		updateTable(filteredData)
             // Implement logic to handle the brush selection for 'dimension'
             // This might involve filtering the dataset based on the selection and updating the visualization
         }
@@ -110,5 +106,51 @@ dimensions.forEach(function(dimension) {
         }
 
 })
+    
+function createTable(data) {
+var table = d3.select("#data-table").selectAll("table").data([null]);
+    table = table.enter().append("table").merge(table);
+
+    // Create the table header
+    var thead = table.selectAll("thead").data([null]);
+    thead = thead.enter().append("thead").merge(thead);
+
+    var headers = thead.selectAll("th").data(d3.keys(data[0]));
+    headers.enter().append("th").merge(headers).text(d => d);
+    headers.exit().remove();
+
+    // Create rows for each object in the data
+    // var rows = table.selectAll("tbody tr").data(data);
+    // rows = rows.enter().append("tr").merge(rows);
+
+    // // Create cells for each row
+    // var cells = rows.selectAll("td").data(function(row) {
+    //     return d3.keys(row).map(function(column) {
+    //         return { value: row[column] };
+    //     });
+    // });
+
+    // cells.enter().append("td").merge(cells).text(d => d.value);
+    // cells.exit().remove();
+
+    // Remove any excess rows
+    // rows.exit().remove();
+}
+    createTable(data)
+
+function updateTable(selectedData) {
+  if (selectedData == null) {
+      return
+
+}
+    console.log(selectedData)
+    var table = d3.select("#data-table")
+    var para = table.selectAll("p").data(selectedData)
+    para.enter().append("p").text(function(d) { return d["name"]; })
+    para.exit().remove()
+
+
+}
+
 
 });

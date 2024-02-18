@@ -68,8 +68,8 @@ def clean():
             ("item.data.price","price", lambda a : a.replace("$","")),
             ("item.data.total_volume","total_volume", lambda a : a.replace("$", "").replace(",", "")),
             ("item.data.total_volume_btc","total_volume_btc", lambda a : a),
-            ("item.data.price_change_percentage_24h.usd","price_change_percetage", lambda a : str(a))
-            # ("item.large", "logo") cool to use the logo to prsent these
+            ("item.data.price_change_percentage_24h.usd","price_change_percetage", lambda a : str(a)),
+            ("item.large", "logo", lambda a : a) # cool to use the logo to prsent these
         ]
         extracted_data = extract_nested_attributes(coin, attribute_paths)
         print(extracted_data)

@@ -160,6 +160,43 @@ footer {
 }
 
 .graph {
-    height: 1000px;
+    height: 600px;
     background-color: rgb(128, 128, 128);
+}
+svg {
+
+    background-color: #ffffffd2;
+    border-radius: 10px;
+    left: 50%;
+    positon: absolute;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+}
+
+
+
+.title {
+    position: absolute;
+    font-size: 2em;
+    font-weight: bold;
+    margin-right: 20px;
+    background-color: #ffffffd2;
+    border-radius: 10px;
+    z-index: 10;
+    padding: 20px;
+    left: 12%;
+    top: 32%;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
 }
