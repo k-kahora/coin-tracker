@@ -69,7 +69,7 @@ def clean():
             ("item.market_cap_rank","market_cap_rank", lambda a : str(a)),
             ("item.data.total_volume","total_volume", lambda a : a.replace("$", "").replace(",", "")),
             ("item.score","score", lambda a : str(a)),
-            ("item.data.price_change_percentage_24h.usd","price_change_percetage", lambda a : str(a)),
+            ("item.data.price_change_percentage_24h.usd","price_change_percentage", lambda a : str(a)),
             ("item.large", "logo", lambda a : a) # cool to use the logo to prsent these
         ]
         extracted_data = extract_nested_attributes(coin, attribute_paths)
@@ -123,12 +123,23 @@ def dimension():
             return extracted_data
 
         # all data must be sent as a string that represents a decimal/int with no special chars besides a '.' but 
+
+        # attribute_paths = [
+        #     ("item.data.price","price", lambda a : a.replace("$","")),
+        #     ("item.name","name", lambda a : a),
+        #     ("item.market_cap_rank","market_cap_rank", lambda a : str(a)),
+        #     ("item.data.total_volume","total_volume", lambda a : a.replace("$", "").replace(",", "")),
+        #     ("item.score","score", lambda a : str(a)),
+        #     ("item.data.price_change_percentage_24h.usd","price_change_percentage", lambda a : str(a)),
+        #     ("item.large", "logo", lambda a : a) # cool to use the logo to prsent these
+        # ]
+
         attribute_paths= [
             ("market_data.current_price.usd","price", lambda a : a),
             ("name","name", lambda a : a),
             ("market_cap_rank","market_cap_rank", lambda a : a),
             ("market_data.total_volume.usd","total_volume", lambda a : a),
-            ("market_data.price_change_24h","market_cap_price", lambda a : a),
+            ("market_data.price_change_24h","score", lambda a : 0),
             ("market_data.price_change_percentage_24h","price_change_percentage", lambda a : a),
             ("image.large", "logo", lambda a : a) # cool to use the logo to prsent these
         ]
