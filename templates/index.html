@@ -127,39 +127,13 @@
             logo.style.transform = `translate(-50%, -50%) perspective(1000px) rotateX(${mouseY * 30}deg) rotateY(${mouseX * 30}deg)`;
         });
     </script>
-    <section class="search">
-<div id="search-container">
-  <input type="text" id="search-input" placeholder="Search...">
-  <button id="search-button">Search</button>
-</div>
-</section>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var coinsContainer = document.querySelector('.coins-container2');
-            var images = coinsContainer.querySelectorAll('.image-container2');
-
-            function handleScroll() {
-                var scrollPosition = window.scrollY || window.pageYOffset;
-
-                if (scrollPosition > coinsContainer.offsetTop) {
-                    images.forEach(function (image) {
-                        image.classList.add('move-center');
-                    });
-                } else {
-                    images.forEach(function (image) {
-                        image.classList.remove('move-center');
-                    });
-                }
-            }
-
-            // Attach the scroll event listener
-            window.addEventListener('scroll', handleScroll);
-        });
-    </script>
     <section id="graph" class="graph">
-
         <h1 id="graph-title">Track the Top Trending Cryptos Below!</h1>
+        <div id="search-container">
+            <input type="text" id="search-input" placeholder="Search...">
+            <button id="search-button">Add Coin</button>
+        </div>
         <div id="my_dataviz"></div>
         <br>
         <br>

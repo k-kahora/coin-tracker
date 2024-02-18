@@ -263,42 +263,52 @@ table {
 #spacer {
     background-color: rgb(128, 128, 128);
 }
+
 .search {
     height: 50px;
     background-color: rgb(128, 128, 128);
 }
 
 #search-container {
-  display: flex;
-  justify-content: flex-start; /* Aligns items to the start of the container */
-  align-items: center;
-  margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    /* Aligns items to the start of the container */
+    align-items: center;
+    padding-bottom: 15px;
 }
 
 #search-input {
-  padding: 10px;
-  font-size: 16px;
-  border: 2px solid #ddd;
-  border-radius: 4px 0 0 4px; /* Rounded left corners */
-  outline: none; /* Removes the default focus highlight */
-  width: 240px; /* Adjust width as needed */
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 4px 0 0 4px;
+    /* Rounded left corners */
+    outline: none;
+    /* Removes the default focus highlight */
+    width: 240px;
+    /* Adjust width as needed */
 }
 
 #search-input:focus {
-  border-color: #007bff; /* Highlight color when focused */
+    border-color: #007bff;
+    /* Highlight color when focused */
 }
 
 #search-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 0 4px 4px 0; /* Rounded right corners */
-  cursor: pointer; /* Changes cursor to pointer on hover */
-  outline: none; /* Removes the default focus highlight */
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    /* Rounded right corners */
+    cursor: pointer;
+    /* Changes cursor to pointer on hover */
+    outline: none;
+    /* Removes the default focus highlight */
 }
 
 #search-button:hover {
-  background-color: #0056b3; /* Darker shade on hover */
+    background-color: #0056b3;
+    /* Darker shade on hover */
 }
