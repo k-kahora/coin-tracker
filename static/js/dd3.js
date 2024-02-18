@@ -45,7 +45,7 @@ dimensions.forEach(dim => globalSelections[dim] = null); // Assuming 'dimensions
 
   svg
     .selectAll("myPath")
-    .data(data)
+    .data(new_data)
     .enter().append("path")
     .attr("d",  path)
     .style("fill", "none")
@@ -107,7 +107,6 @@ function brushed(event) {
             if (!globalSelections[dim]) return true;
             var val = d[dim];
             var [max, min] = globalSelections[dim];
-	    console.log([min,max])
             return val >= min && val <= max;
         });
     });
@@ -185,12 +184,15 @@ function updateTableBody(data, columns) {
 }
 d3.select('#search-button').on('click', function() {
   var searchString = d3.select('#search-input').property('value');
-  console.log(searchString);
 
   // Use the Fetch API with D3.js v5+
   d3.json("http://127.0.0.1:5000/dimensions?query=" + encodeURIComponent(searchString))
+    // d is the searched data
+    // data is the trending data
     .then(function(d) {
-      console.log(d);
+      console.log(d)
+      console.log(data)
+      updateGraph(d)
     })
     .catch(function(error) {
       console.error("Error fetching the data: ", error);
