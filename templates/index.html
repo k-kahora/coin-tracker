@@ -13,7 +13,7 @@
 
     <nav>
         <a href="#"> <!-- Add style to push this link to the left -->
-            <img src="Images/logo.png" alt="Logo" style="height: 30px; width: 30px;">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" style="height: 30px; width: 30px;">
         </a>
         <div class="nav-contents">
             <a href="#">Home</a>
@@ -25,25 +25,27 @@
     <section class="hero-section" style="background-color:rgb(21, 27, 18)">
         <div class="coins-container">
             <div class="image-container binance">
-                <img src="Images/binance-logo.svg" alt="Image 1">
+                <img src="
+{{ url_for('static', filename='images/binance-logo.svg') }}
+" alt="Image 1">
             </div>
             <div class="image-container bitpanda">
-                <img src="Images/bitpanda-logo.svg" alt="Image 2">
+                <img src="{{ url_for('static', filename='images/bitpanda-logo.svg') }}" alt="Image 2">
             </div>
             <div class="image-container coinbase">
-                <img src="Images/coinbase-logo.svg" alt="Image 1">
+                <img src="{{ url_for('static', filename='images/coinbase-logo.svg') }}" alt="Image 1">
             </div>
             <div class="image-container gemeni">
-                <img src="Images/gemini-logo.svg" alt="Image 2">
+                <img src="{{ url_for('static', filename='images/gemini-logo.svg') }}" alt="Image 2">
             </div>
             <div class="image-container kucoin">
-                <img src="Images/kucoin-logo.svg" alt="Image 1">
+                <img src="{{ url_for('static', filename='images/kucoin-logo.svg') }}" alt="Image 1">
             </div>
             <div class="image-container kraken">
-                <img src="Images/kraken-logo.svg" alt="Image 1">
+                <img src="{{ url_for('static', filename='images/kraken-logo.svg') }}" alt="Image 1">
             </div>
             <div class="image-container compound">
-                <img src="Images/compound-logo.svg" alt="Image 1">
+                <img src="{{ url_for('static', filename='images/compound-logo.svg') }}" alt="Image 1">
             </div>
         </div>
         <div class="title">
@@ -52,7 +54,8 @@
             <a href="#" class="get-started-btn">Get Started</a>
         </div>
         <div class="logo">
-            <img src="images/logo.png" alt="Logo">
+
+            <img src = "{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
         </div>
     </section>
     <script>

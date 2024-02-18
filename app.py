@@ -105,9 +105,13 @@ def dimension():
         # Handle connection errors
         return jsonify({"error": "Failed to make API call", "details": str(e)}), 500
 
+@app.route('/graph')
+def graph_runner():
+    return render_template('graph.html')
+
 @app.route('/main-page')
 def main_site():
-    return render_template('graph.html')
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
