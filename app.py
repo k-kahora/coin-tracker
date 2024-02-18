@@ -68,7 +68,7 @@ def clean():
             ("item.name","name", lambda a : a),
             ("item.market_cap_rank","market_cap_rank", lambda a : str(a)),
             ("item.data.total_volume","total_volume", lambda a : a.replace("$", "").replace(",", "")),
-            ("item.data.total_volume_btc","total_volume_btc", lambda a : a),
+            ("item.score","score", lambda a : str(a)),
             ("item.data.price_change_percentage_24h.usd","price_change_percetage", lambda a : str(a)),
             ("item.large", "logo", lambda a : a) # cool to use the logo to prsent these
         ]
@@ -109,7 +109,6 @@ def dimension():
             def get_from_path(data, path, f):
                 """Helper function to navigate through the nested dictionary."""
                 keys = path.split('.')
-                # print(data)
                 for key in keys:
                     if data is not None: 
                         data = data[key]
@@ -137,10 +136,8 @@ def dimension():
         extracted_data = extract_nested_attributes(coin, attribute_paths)
         return extracted_data
     final = []
-       
 
-    data = [{"id": obj["id"]} for obj in data["coins"]][:3]
-    print(data)
+    data = [{"id": obj["id"]} for obj in data["coins"]][:1]
     
     def get_precise_data(coin):
 
@@ -158,6 +155,7 @@ def dimension():
         except requests.RequestException as e:
         # Handle connection errors
             return jsonify({"error": "Failed to make API call", "details": str(e)}), 500
+        print(data)
         return data
 
     for item in data:
