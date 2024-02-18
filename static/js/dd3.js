@@ -44,7 +44,7 @@ d3.json('/clean-data').then(function(data) {
     .style("fill", "none")
     .style("stroke", "#69b3a2")
     .style("opacity", 0.5)
-svg.selectAll("myAxis")
+var axis = svg.selectAll("myAxis")
     // For each dimension of the dataset I add a 'g' element:
     .data(dimensions).enter()
     .append("g")
@@ -58,4 +58,57 @@ svg.selectAll("myAxis")
       .attr("y", -9)
       .text(function(d) { return d; })
       .style("fill", "black")
+    
+dimensions.forEach(function(dimension) {
+        var brush = d3.brushY()
+            .extent([[-10, 0], [10, height]])
+            .on("brush", brushed)
+            .on("end", brushEnded);
+
+        svg.append("g")
+            .attr("class", "brush")
+            .attr("transform", "translate(" + x(dimension) + ",0)")
+            .call(brush);
+
+        var brush = d3.brushY()
+            .extent([[-10, 0], [10, height]])
+            .on("brush", brushed)
+            .on("end", brushEnded);
+
+        svg.append("g")
+            .attr("class", "brush")
+            .attr("transform", "translate(" + x(dimension) + ",0)")
+            .call(brush);
+
+        function brushed(event) {
+            var selection = event.selection;
+	    if (selection == null) return;
+	    var [y0, y1] = selection.map(y[dimension].invert, y[dimension]);
+	    // console.log(y0)
+	    // console.log(y1)
+	    var filteredData = data.filter(function(d) {
+		// console.log(parseFloat(d[dimension]))
+		// console.log("y0")
+		// console.log(y0)
+		// console.log("y1")
+		// console.log(y1)
+		if (parseFloat(d[dimension]) >= y1 && parseFloat(d[dimension]) <= y0) {
+		    console.log(d)
+}
+		return parseFloat(d[dimension]) >= y1 && parseFloat(d[dimension]) <= y0;
+	    });
+	    console.log(filteredData)
+            // Implement logic to handle the brush selection for 'dimension'
+            // This might involve filtering the dataset based on the selection and updating the visualization
+        }
+
+
+        function brushEnded(event) {
+            var selection = event.selection;
+            // Implement logic to handle the brush selection for 'dimension'
+            // This might involve filtering the dataset based on the selection and updating the visualization
+        }
+
+})
+
 });
