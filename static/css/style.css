@@ -109,6 +109,15 @@ footer {
     z-index: 0;
 }
 
+.image-container2 {
+    width: 100px;
+    height: 100px;
+    transform: translate3d(0px, 0px, 0px) rotate3d(0, 0, 1, 0.1deg);
+    opacity: 1;
+    z-index: 0;
+    transition: transform 1s ease-in-out;
+}
+
 .coins-container {
     position: absolute;
     max-width: 1200px;
@@ -163,13 +172,14 @@ footer {
     height: 600px;
     background-color: rgb(128, 128, 128);
 }
+
 svg {
 
     background-color: #ffffffd2;
     border-radius: 10px;
     left: 50%;
-    positon: absolute;
-    box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
 }
 
 
@@ -186,17 +196,112 @@ svg {
     left: 12%;
     top: 32%;
 }
+
 table {
     width: 100%;
     border-collapse: collapse;
+    border-radius: 20px;
 }
 
-th, td {
-    border: 1px solid black;
-    padding: 8px;
+
+
+
+
+.data-table-container {
+    max-height: 400px;
+    /* Adjust this value as needed */
+    overflow-y: auto;
+}
+
+#data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#data-table th,
+#data-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
     text-align: left;
 }
 
-th {
+#data-table tr {
+    background-color: #e7e7e7;
+}
+
+#data-table th {
     background-color: #f2f2f2;
+    /* Header background color */
+    font-weight: bold;
+    color: #333;
+    /* Header text color */
+}
+
+
+#data-table tr:hover {
+    background-color: #f5f5f5;
+    /* Hover effect color */
+}
+
+#graph-title {
+    color: #d4c449;
+    font-size: 35px;
+    /* Optional: Add margin for spacing */
+    text-align: center;
+    /* Optional: Center the text */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.304);
+    /* Adjust the shadow values as needed */
+}
+
+#table-title {
+    color: #d4c449;
+    font-size: 35px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.304);
+}
+
+#spacer {
+    background-color: rgb(128, 128, 128);
+}
+
+.bitcoin {
+    position: absolute;
+}
+
+.cardano {
+    position: absolute;
+    right: 2%;
+    top: 105%;
+}
+
+.dogecoin {
+    position: absolute;
+    top: 190%;
+}
+
+.ethereum {
+    position: absolute;
+    right: 5%;
+    top: 105%;
+}
+
+.tron {
+    position: absolute;
+    top: 145%;
+    right: 5%;
+}
+
+.usd-coin {
+    position: absolute;
+    top: 190%;
+    right: 2%;
+}
+
+.coins-container2 {
+    overflow: hidden;
+}
+
+
+.move-center {
+    transform: translateY(-100vh);
 }

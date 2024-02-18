@@ -5,20 +5,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TokenTrend</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="https://d3js.org/d3-collection.v1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 </head>
 
 <body>
 
+    <script>
+        $(document).ready(function () {
+            // Smooth scrolling when clicking on a link with the ID "scrollToAbout"
+            $("#scrollToGraph").on('click', function (event) {
+                if (this.hash !== "") {
+                    event.preventDefault();
 
+                    // Store the hash
+                    var hash = this.hash;
+
+                    // Using jQuery's animate() method to add smooth page scroll
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top
+                    }, 800, function () {
+                        // Add hash (#) to URL when done scrolling (default click behavior)
+                        window.location.hash = hash;
+                    });
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Smooth scrolling when clicking on a link with the ID "scrollToAbout"
+            $("#scrollToTable").on('click', function (event) {
+                if (this.hash !== "") {
+                    event.preventDefault();
+
+                    // Store the hash
+                    var hash = this.hash;
+
+                    // Using jQuery's animate() method to add smooth page scroll
+                    $('html, body').animate({
+                        scrollTop: $(hash).offset().top
+                    }, 800, function () {
+                        // Add hash (#) to URL when done scrolling (default click behavior)
+                        window.location.hash = hash;
+                    });
+                }
+            });
+        });
+    </script>
 
     <nav>
         <a href="#"> <!-- Add style to push this link to the left -->
-            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" style="height: 30px; width: 30px;">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo"
+                style="height: 30px; width: 30px;">
         </a>
         <div class="nav-contents">
             <a href="#">Home</a>
@@ -56,11 +99,11 @@
         <div class="title">
             <h1>Welcome to TokenTrend</h1>
             <p class="subtitle">The one-stop-shop for all your cryptocurrency tracking needs.</p>
-            <a href="#" class="get-started-btn">Get Started</a>
+            <a href="#graph" id="scrollToGraph" class="get-started-btn">Get Started</a>
         </div>
         <div class="logo">
 
-            <img src = "{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
         </div>
     </section>
     <script>
@@ -85,14 +128,52 @@
         });
     </script>
 
-    <section class="graph">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var coinsContainer = document.querySelector('.coins-container2');
+            var images = coinsContainer.querySelectorAll('.image-container2');
 
-    <div id="my_dataviz"></div>
+            function handleScroll() {
+                var scrollPosition = window.scrollY || window.pageYOffset;
+
+                if (scrollPosition > coinsContainer.offsetTop) {
+                    images.forEach(function (image) {
+                        image.classList.add('move-center');
+                    });
+                } else {
+                    images.forEach(function (image) {
+                        image.classList.remove('move-center');
+                    });
+                }
+            }
+
+            // Attach the scroll event listener
+            window.addEventListener('scroll', handleScroll);
+        });
+    </script>
+    <section id="graph" class="graph">
+
+        <h1 id="graph-title">Track the Top Trending Cryptos Below!</h1>
+        <div id="my_dataviz"></div>
+        <br>
+        <br>
+        <a href="#table" id="scrollToTable" class="get-started-btn">View Data</a>
     </section>
-    <section class="graph">
-<div id="data-table">
-</div>
-</section>
+
+    <section id="spacer">
+        <br>
+        <br>
+    </section>
+
+    <section id="table" class="graph">
+        <h1 id="table-title">Data</h1>
+        <div class="data-table-container">
+            <div id="data-table">
+            </div>
+        </div>
+    </section>
+
+
 
 
     <script src="{{ url_for('static', filename='js/dd3.js') }}"></script>
