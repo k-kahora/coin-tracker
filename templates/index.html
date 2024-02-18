@@ -5,7 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TokenTrend</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"></head>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://d3js.org/d3-collection.v1.min.js"></script>
+
+</head>
 
 <body>
 
@@ -82,9 +87,12 @@
 
     <section class="graph">
 
+    <div id="my_dataviz"></div>
+    <script src="{{ url_for('static', filename='js/dd3.js') }}"></script>
     </section>
 
 
+    <!-- Graph one is in here -->
 
     <footer>
         <p>&copy; 2024 TokenTrend. All rights reserved.</p>
