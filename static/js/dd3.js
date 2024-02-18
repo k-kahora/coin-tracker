@@ -27,44 +27,62 @@ dimensions.forEach(dim => globalSelections[dim] = null); // Assuming 'dimensions
     var x
     
      function updateGraph(new_data) {
+// Assuming 'dimensions', 'new_data', 'svg', 'height', and 'width' are defined elsewhere in your code
 
-    for (i in dimensions) {
-	name = dimensions[i]
-	y[name] = d3.scaleLinear()
-	    .domain( d3.extent(new_data, function(d) { return parseFloat(d[name]); }) ) // TODO make sure the numbers are returend in the valide format
-	    .range([height, 0])
-    }
+// Update scale domains with new data
+dimensions.forEach(function(name) {
+    y[name] = d3.scaleLinear()
+        .domain(d3.extent(new_data, function(d) { return parseFloat(d[name]); }))
+        .range([height, 0]);
+});
 
-    x = d3.scalePoint()
-	.range([0, width])
-	.padding(1)
-	.domain(dimensions);
- function path(d) {
-      return d3.line()(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
-  }
+x = d3.scalePoint()
+    .range([0, width])
+    .padding(1)
+    .domain(dimensions);
 
-  svg
-    .selectAll("myPath")
-    .data(new_data)
-    .enter().append("path")
-    .attr("d",  path)
+function path(d) {
+    return d3.line()(dimensions.map(function(p) { return [x(p), y[p](d[p])]; }));
+}
+
+// Update paths
+var paths = svg.selectAll("path")
+    .data(new_data);
+
+// Remove old paths
+paths.exit().remove();
+
+// Add new paths
+paths.enter().append("path")
+    .merge(paths) // Merge enter and update selection
+    .attr("d", path)
     .style("fill", "none")
     .style("stroke", "#69b3a2")
-    .style("opacity", 1)
-var axis = svg.selectAll("myAxis")
-    // For each dimension of the dataset I add a 'g' element:
-    .data(dimensions).enter()
-    .append("g")
-    // I translate this element to its right position on the x axis
+    .style("opacity", 1);
+
+// Update axes
+var axes = svg.selectAll("g.myAxis")
+    .data(dimensions, function(d) { return d; });
+
+// Remove old axes
+axes.exit().remove();
+
+// Add new axes
+var newAxes = axes.enter().append("g")
+    .attr("class", "myAxis");
+
+// Update the positions and call the axes
+newAxes.merge(axes)
     .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
-    // And I build the axis with the call function
-    .each(function(d) { d3.select(this).call(d3.axisLeft().scale(y[d])); })
-    // Add axis title
-    .append("text")
-      .style("text-anchor", "middle")
-      .attr("y", -9)
-      .text(function(d) { return d; })
-      .style("fill", "black")
+    .each(function(d) { d3.select(this).call(d3.axisLeft().scale(y[d])); });
+
+// Update axis titles
+newAxes.append("text")
+    .merge(axes.selectAll("text")) // Select and merge axis titles
+    .style("text-anchor", "middle")
+    .attr("y", -9)
+    .text(function(d) { return d; })
+    .style("fill", "black");
      }
     updateGraph(data)
 
@@ -192,7 +210,10 @@ d3.select('#search-button').on('click', function() {
     .then(function(d) {
       console.log(d)
       console.log(data)
-      updateGraph(d)
+      data.push(d[0])
+      console.log(data)
+	
+      updateGraph(data)
     })
     .catch(function(error) {
       console.error("Error fetching the data: ", error);
