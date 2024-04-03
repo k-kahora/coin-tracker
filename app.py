@@ -54,6 +54,7 @@ def clean():
                         data = data[key]
                     else:
                         return None  # or a default value
+                print(data)
                 return f(data)
     
             extracted_data = {}
@@ -64,7 +65,9 @@ def clean():
 
         # all data must be sent as a string that represents a decimal/int with no special chars besides a '.' but 
         attribute_paths = [
-            ("item.data.price","price", lambda a : a.replace("$","")),
+
+            ("item.data.price","price", lambda a : a),
+            # ("item.data.price","price", lambda a : a.replace("$","")),
             ("item.name","name", lambda a : a),
             ("item.market_cap_rank","market_cap_rank", lambda a : str(a)),
             ("item.data.total_volume","total_volume", lambda a : a.replace("$", "").replace(",", "")),
